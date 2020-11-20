@@ -93,6 +93,7 @@ class ControlPanelsContainer extends React.Component {
       ...controls[name],
       name,
     };
+
     const {
       validationErrors,
       provideFormDataToProps,

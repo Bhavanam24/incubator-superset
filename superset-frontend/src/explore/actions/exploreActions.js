@@ -27,6 +27,11 @@ export function setDatasourceType(datasourceType) {
   return { type: SET_DATASOURCE_TYPE, datasourceType };
 }
 
+export const SET_FETCH_COLUMNS = 'SET_FETCH_COLUMNS';
+export function setFetchColumns(queryResponse, key) {
+  return { type: SET_FETCH_COLUMNS, queryResponse, key };
+}
+
 export const SET_DATASOURCE = 'SET_DATASOURCE';
 export function setDatasource(datasource) {
   return { type: SET_DATASOURCE, datasource };

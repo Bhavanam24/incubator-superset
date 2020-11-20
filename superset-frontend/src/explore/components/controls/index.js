@@ -40,6 +40,7 @@ import MetricsControl from './MetricsControl';
 import AdhocFilterControl from './AdhocFilterControl';
 import FilterBoxItemControl from './FilterBoxItemControl';
 import withVerification from './withVerification';
+import ColumnControl from './ColumnControl';
 
 const controlMap = {
   AnnotationLayerControl,
@@ -49,6 +50,7 @@ const controlMap = {
   ColorMapControl,
   ColorPickerControl,
   ColorSchemeControl,
+  ColumnControl,
   DatasourceControl,
   DateFilterControl,
   FixedOrMetricControl,

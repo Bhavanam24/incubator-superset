@@ -58,6 +58,7 @@ const defaultProps = {
   renderTrigger: false,
   hidden: false,
   validationErrors: [],
+  formData: {},
 };
 
 export default class Control extends React.PureComponent {
