@@ -202,6 +202,7 @@ export default function transformProps(chartProps) {
   const {
     alignPn: alignPositiveNegative = true,
     colorPn: colorPositiveNegative = true,
+    conditionalColor = true,
     showCellBars = true,
     includeSearch = false,
     pageLength: pageSize = 0,
@@ -221,6 +222,7 @@ export default function transformProps(chartProps) {
     alignPositiveNegative,
     colorPositiveNegative,
     showCellBars,
+    conditionalColor,
     sortDesc,
     includeSearch,
     pageSize: getPageSize(pageSize, data.length, columns.length),

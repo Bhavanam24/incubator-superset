@@ -20,6 +20,8 @@ const COMPARISION_OPTIONS = [
   '<',
   '=',
   '>',
+  '()',
+  '[]',
   'contains',
   'startsWith',
   'endsWith',

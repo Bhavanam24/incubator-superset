@@ -264,7 +264,18 @@ const config = {
         default: true,
         description: t('Enable to display bar chart background elements in table columns')
       }
-    }, null]]
+    }, 
+    {
+      name: 'conditional_color',
+      config: {
+        type: 'CheckboxControl',
+        label: t('Conditional Color'),
+        renderTrigger: true,
+        default: false,
+        description: t('Enable to conditional formatting')
+      }
+    },
+    null]]
   },{
     label: 'Column Configuration',
     description: 'i like potato',

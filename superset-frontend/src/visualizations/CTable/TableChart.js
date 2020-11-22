@@ -47,6 +47,31 @@ function getSortTypeByDataType(dataType) {
  * Cell background to render columns as horizontal bar chart
  */
 
+function checkCompareValue(base, val, compare){
+  const baseValueString = base.toString();
+  const baseValueList = baseValueString.split('&&');
+  switch (compare) {
+    case '<':
+      return parseFloat(val) < parseFloat(base);
+    case '=':
+      return parseFloat(val) === parseFloat(base);
+    case '>':
+      return parseFloat(val) > parseFloat(base);
+    case '()':
+      return (parseFloat(baseValueList[0]) < parseFloat(val))  && (parseFloat(baseValueList[1]) > parseFloat(val));
+    case '[]':
+      return (parseFloat(baseValueList[0]) <= parseFloat(val))  && (parseFloat(baseValueList[1]) >= parseFloat(val));
+    case 'contains':
+      return val.toString().indexOf(base) !== -1;
+    case 'startsWith':
+      return val.toString().startsWith(base);
+    case 'endsWith':
+      return val.toString().endsWith(base);
+    default:
+      return false;
+  }
+}
+
 function cellBar({
   value,
   valueRange,
@@ -55,17 +80,26 @@ function cellBar({
   columnConfiguration,
   key
 }) {
-  const [minValue, maxValue] = valueRange;
+  let minValue, maxValue
+  if(valueRange){
+    [minValue, maxValue] = valueRange;
+  }
   const r = colorPositiveNegative && value < 0 ? 150 : 0;
 
-  const config = columnConfiguration && columnConfiguration[key]
+  let color;
 
-  const colorConfig = config && config.coloringOption
-
-  if(columnConfiguration){
-    const hex = colorConfig.hex
-    console.log(rgb(hex))
-    return hex && rgb(hex);
+  if(columnConfiguration && columnConfiguration[key]){
+    const config =  columnConfiguration[key];
+    if(config['bcColoringOption']){
+      color = config['bcColoringOption'].hex && rgb(config['bcColoringOption'].hex);
+    }
+    if(config['coloringOption'] && config['comparisionOption'] && config['basement']){
+      const check = value !== null && checkCompareValue(config['basement'], value, config['comparisionOption']);
+      if(check){
+        color =  config['coloringOption'].hex && rgb(config['coloringOption'].hex)
+      }
+    }
+    return color
   }
 
   if (alignPositiveNegative) {
@@ -150,6 +184,7 @@ export default function TableChart(props) {
     includeSearch = false,
     pageSize = 0,
     showCellBars = true,
+    conditionalColor = true,
     emitFilter = false,
     sortDesc = false,
     onChangeFilter,
@@ -207,6 +242,7 @@ export default function TableChart(props) {
     }
 
     const valueRange = showCellBars && getValueRange(key);
+
     return {
       id: String(i),
       // to allow duplicate column keys
@@ -226,8 +262,10 @@ export default function TableChart(props) {
             alignPositiveNegative,
             colorPositiveNegative,
             key,
-            columnConfiguration,
-          }) : undefined
+          }) : conditionalColor? cellBar({
+            value: value,
+            key,
+            columnConfiguration}):undefined
         };
         const html = isHtml ? {
           __html: text
